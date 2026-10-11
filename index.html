@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <!--
   ============================================================
-  个人学术主页 · 单文件 index.html（可直接作为 GitHub Pages 主仓库首页）
-  自定义只需搜索并替换占位：
-    1.「范铭宇」 /「Fan Mingyu」 —— 导航、Hero、页脚署名
-  联系邮箱已配置为 qpeqry@gmail.com，无需改动。
-  GitHub 按钮链接已指向 https://github.com/Achimifun
+  个人学术主页 · 范铭宇（朱红纸感版 · 含最新导航与照片卡）
+  基底：第一版 Working Paper 纸张风（米白底 + 朱红 + 衬线）
+  新增：最新导航体系（桌面左侧竖栏 + 移动底部栏 + 滚动高亮）
+        About 区证件照卡（透明底融合纸面）
+  修正：页脚署名 王毅乐 → 范铭宇
   ============================================================
 -->
 <html lang="zh-CN">
@@ -66,43 +66,35 @@ ul{list-style:none}
 img,svg{display:block}
 
 /* ============================================================
-   导航
+   最新导航体系：桌面左侧竖栏 / 移动底部栏（朱红 θ）
    ============================================================ */
-.nav{
-  position:fixed;top:0;left:0;right:0;z-index:100;
-  background:rgba(244,245,242,.92);
-  border-bottom:1px solid var(--rule);
+.rail{
+  position:fixed;left:24px;top:50%;transform:translateY(-50%);z-index:120;
+  display:none;flex-direction:column;border-left:1px solid var(--rule);
 }
-.nav-inner{
-  max-width:var(--maxw);margin:0 auto;padding:0 var(--gutter);
-  height:64px;display:flex;align-items:center;justify-content:space-between;gap:24px;
+.rail-item{
+  display:flex;align-items:center;gap:11px;padding:8px 16px;margin-left:-1px;
+  border-left:2px solid transparent;
+  font-family:var(--mono);font-size:12px;color:var(--ink-faint);letter-spacing:.05em;
+  transition:color .2s ease,border-color .2s ease;
 }
-.brand{display:flex;align-items:center;gap:11px;font-family:var(--serif);font-weight:600;font-size:18px;letter-spacing:.01em}
-.brand-mark{
-  width:30px;height:30px;background:var(--vermilion);border-radius:7px;
-  display:grid;place-items:center;color:var(--paper-raised);
-  font-style:italic;font-size:18px;font-family:var(--serif);line-height:1;
+.rail-item .t{font-family:var(--serif);font-style:italic;font-weight:600;font-size:16px;color:var(--ink-faint);transition:color .2s ease}
+.rail-item:hover{color:var(--ink)}
+.rail-item.active{color:var(--ink);border-left-color:var(--vermilion)}
+.rail-item.active .t{color:var(--vermilion)}
+.mnav{
+  position:fixed;left:0;right:0;bottom:0;z-index:120;
+  display:flex;justify-content:space-around;align-items:stretch;
+  background:rgba(244,245,242,.95);border-top:1px solid var(--rule);
 }
-.brand small{font-family:var(--mono);font-size:11px;font-weight:400;color:var(--ink-faint);letter-spacing:.04em;display:block;margin-top:-2px}
-.nav-links{display:flex;align-items:center;gap:clamp(14px,2.2vw,30px)}
-.nav-links a{
-  font-family:var(--mono);font-size:12.5px;color:var(--ink-soft);letter-spacing:.03em;
-  padding:6px 2px;position:relative;transition:color .2s ease;
+.mnav-item{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
+  flex:1;min-width:0;padding:8px 2px;color:var(--ink-faint);font-size:10.5px;
+  transition:color .2s ease;
 }
-.nav-links a .n{color:var(--vermilion);margin-right:5px}
-.nav-links a::after{
-  content:"";position:absolute;left:0;right:100%;bottom:0;height:1px;background:var(--vermilion);
-  transition:right .25s cubic-bezier(.22,1,.36,1);
-}
-.nav-links a:hover{color:var(--ink)}
-.nav-links a:hover::after{right:0}
-.nav-mail{
-  font-family:var(--mono);font-size:12.5px;border:1px solid var(--ink);
-  padding:8px 16px;border-radius:2px;transition:background .2s ease,color .2s ease;
-  white-space:nowrap;
-}
-.nav-mail:hover{background:var(--ink);color:var(--paper)}
-@media(max-width:820px){.nav-links a:not(.nav-mail){display:none}.brand small{display:none}}
+.mnav-item .t{font-family:var(--serif);font-style:italic;font-weight:600;font-size:17px;line-height:1}
+.mnav-item.active{color:var(--vermilion)}
+@media(min-width:960px){.rail{display:flex}.mnav{display:none}}
 
 /* ============================================================
    通用章节骨架：左章节头，右正文
@@ -117,11 +109,13 @@ section{position:relative;z-index:1}
 .sec-title{font-family:var(--serif);font-weight:600;font-size:clamp(24px,3vw,32px);line-height:1.3;letter-spacing:.01em}
 .sec-title-en{font-family:var(--mono);font-size:12px;color:var(--ink-faint);margin-top:10px;letter-spacing:.02em}
 @media(max-width:860px){.sec-grid{grid-template-columns:1fr;gap:26px}.sec-head{position:static}}
+/* 桌面端给左侧导航留出空间 */
+@media(min-width:960px){.wrap{padding-left:clamp(150px,17vw,204px)}}
 
 /* ============================================================
    Hero
    ============================================================ */
-.hero{padding-top:calc(64px + clamp(48px,7vh,84px));padding-bottom:clamp(48px,7vh,80px)}
+.hero{padding-top:clamp(56px,9vh,110px);padding-bottom:clamp(48px,7vh,80px)}
 .hero-grid{display:grid;grid-template-columns:1.08fr .92fr;gap:clamp(36px,5vw,68px);align-items:center}
 .hero-kicker{
   font-family:var(--mono);font-size:12.5px;color:var(--ink-soft);
@@ -204,9 +198,22 @@ section{position:relative;z-index:1}
 .method-cell .full{font-size:12px;color:var(--ink-faint);margin-top:5px;line-height:1.5}
 @media(max-width:860px){.method-strip .wrap{grid-template-columns:repeat(2,1fr)}.method-cell{border-bottom:1px solid var(--rule)}.method-strip .wrap .method-cell:nth-child(odd){border-left:none}.method-strip .wrap .method-cell:nth-child(5){grid-column:1/-1;border-left:none}}
 @media(max-width:480px){.method-strip .wrap{grid-template-columns:1fr}.method-cell{border-left:none!important}}
+
 /* ============================================================
-   §1 About
+   §1 About（含证件照卡）
    ============================================================ */
+.about-main{display:grid;grid-template-columns:minmax(180px,212px) 1fr;gap:clamp(28px,3.6vw,56px);align-items:start}
+.portrait-card{
+  background:var(--paper-raised);border:1px solid var(--rule);align-self:start;width:100%;
+  box-shadow:0 1px 0 rgba(27,30,32,.04), 0 18px 40px -26px rgba(27,30,32,.28);
+}
+.portrait-card .pic{background:var(--paper)}
+.portrait-card img{width:100%;height:auto;display:block}
+.portrait-card .cap{
+  display:flex;align-items:center;justify-content:center;gap:9px;
+  padding:12px 10px 11px;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;color:var(--ink-faint);
+}
+.portrait-card .cap .t{font-family:var(--serif);font-style:italic;font-weight:600;font-size:13.5px;color:var(--vermilion)}
 .about-body{font-size:clamp(15.5px,1.5vw,17px);line-height:1.95;color:#3a4045}
 .about-body p+p{margin-top:1.1em}
 .about-body strong{color:var(--ink);font-weight:600}
@@ -220,6 +227,10 @@ section{position:relative;z-index:1}
 .meta-cell .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;color:var(--ink-faint);text-transform:uppercase;margin-bottom:7px}
 .meta-cell .v{font-family:var(--serif);font-size:16.5px;line-height:1.55}
 .meta-cell .v small{display:block;font-family:var(--sans);font-size:12.5px;color:var(--ink-faint);margin-top:2px}
+@media(max-width:860px){
+  .about-main{grid-template-columns:1fr;gap:26px}
+  .portrait-card{max-width:236px;margin:0 auto}
+}
 @media(max-width:680px){.about-meta{grid-template-columns:1fr}.meta-cell{border-right:none!important;padding:16px 0 4px!important;border-bottom:1px solid var(--rule)}.about-meta .meta-cell:last-child{border-bottom:none}}
 
 /* ============================================================
@@ -246,6 +257,7 @@ section{position:relative;z-index:1}
   font-family:var(--mono);font-size:11px;color:var(--ink-soft);
   border:1px solid var(--rule);padding:3px 10px;border-radius:2px;background:var(--paper-raised);
 }
+.r-tags span.status{color:var(--vermilion);border-color:var(--vermilion);background:rgba(193,59,36,.05)}
 .r-arrow{font-family:var(--serif);font-size:26px;color:var(--rule-strong);transition:color .2s ease,transform .25s ease;margin-top:2px}
 .r-item:hover .r-arrow{color:var(--vermilion);transform:translate(3px,-3px)}
 @media(max-width:720px){.r-item{grid-template-columns:48px 1fr}.r-arrow{display:none}}
@@ -328,6 +340,7 @@ section{position:relative;z-index:1}
 .contact-row{display:flex;flex-wrap:wrap;gap:12px}
 @media(max-width:820px){.contact-grid{grid-template-columns:1fr}}
 .footer{border-top:1px solid var(--rule);padding:30px 0 42px}
+@media(max-width:959px){.footer{padding-bottom:96px}}
 .footer-inner{display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap;
   font-family:var(--mono);font-size:11px;color:var(--ink-faint);letter-spacing:.03em;line-height:1.9}
 .footer-inner .fl{display:flex;align-items:center;gap:9px}
@@ -340,22 +353,25 @@ section{position:relative;z-index:1}
 </style>
 </head>
 <body>
-<!-- ===================== 导航 ===================== -->
-<nav class="nav">
-  <div class="nav-inner">
-    <a class="brand" href="#top">
-      <span class="brand-mark">θ</span>
-      <span>范铭宇<small>Fan Mingyu · CAUSAL INFERENCE</small></span>
-    </a>
-    <div class="nav-links">
-      <a href="#about"><span class="n">01</span>关于</a>
-      <a href="#research"><span class="n">02</span>方向</a>
-      <a href="#skills"><span class="n">03</span>能力</a>
-      <a href="#now"><span class="n">04</span>近况</a>
-      <a href="#contact"><span class="n">05</span>联系</a>
-      <a class="nav-mail" href="mailto:qpeqry@gmail.com">qpeqry@gmail.com</a>
-    </div>
-  </div>
+<!-- ===================== 最新导航：桌面左侧竖栏 ===================== -->
+<nav class="rail" aria-label="章节导航">
+  <a class="rail-item" href="#top"><span class="t">θ</span>主页</a>
+  <a class="rail-item" href="#about"><span class="t">θ</span>关于</a>
+  <a class="rail-item" href="#research"><span class="t">θ</span>方向</a>
+  <a class="rail-item" href="#skills"><span class="t">θ</span>能力</a>
+  <a class="rail-item" href="#projects"><span class="t">θ</span>项目</a>
+  <a class="rail-item" href="#now"><span class="t">θ</span>近况</a>
+  <a class="rail-item" href="#contact"><span class="t">θ</span>联系</a>
+</nav>
+<!-- ===================== 最新导航：移动底部栏 ===================== -->
+<nav class="mnav" aria-label="章节导航">
+  <a class="mnav-item" href="#top"><span class="t">θ</span>主页</a>
+  <a class="mnav-item" href="#about"><span class="t">θ</span>关于</a>
+  <a class="mnav-item" href="#research"><span class="t">θ</span>方向</a>
+  <a class="mnav-item" href="#skills"><span class="t">θ</span>能力</a>
+  <a class="mnav-item" href="#projects"><span class="t">θ</span>项目</a>
+  <a class="mnav-item" href="#now"><span class="t">θ</span>近况</a>
+  <a class="mnav-item" href="#contact"><span class="t">θ</span>联系</a>
 </nav>
 
 <!-- ===================== Hero ===================== -->
@@ -376,7 +392,6 @@ section{position:relative;z-index:1}
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="1.5"/><path d="m4 7 8 6 8-6"/></svg>
           写信联系
         </a>
-        <!-- GitHub 链接：已指向 Achimifun -->
         <a class="btn btn-ghost" href="https://github.com/Achimifun" target="_blank" rel="noopener">
           <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.6v-2c-3.2.7-3.9-1.4-3.9-1.4-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17 5 18 5.3 18 5.3c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5z"/></svg>
           GitHub
@@ -467,9 +482,15 @@ section{position:relative;z-index:1}
       <div class="sec-title-en">ABOUT</div>
     </div>
     <div class="reveal">
-      <div class="about-body">
-        <p>北京工商大学金融工程专业 2028 届本科生，目前大三在读。主要聚焦数学建模在经济金融领域的实证研究，核心方向围绕<strong>计量经济学、因果识别与因果机器学习</strong>展开。</p>
-        <p>具备系统的理论基础与独立研究能力，能够独立完成从<strong>研究设计、数据处理、模型构建到学术写作</strong>的完整实证研究流程。</p>
+      <div class="about-main">
+        <figure class="portrait-card">
+          <div class="pic"><img src="assets/证件照-透明.png" alt="范铭宇证件照"></div>
+          <figcaption class="cap"><span class="t">θ</span><span>FAN MINGYU · CLASS OF 2028</span></figcaption>
+        </figure>
+        <div class="about-body">
+          <p>北京工商大学金融工程专业 2028 届本科生，目前大三在读。主要聚焦数学建模在经济金融领域的实证研究，核心方向围绕<strong>计量经济学、因果识别与因果机器学习</strong>展开。</p>
+          <p>具备系统的理论基础与独立研究能力，能够独立完成从<strong>研究设计、数据处理、模型构建到学术写作</strong>的完整实证研究流程。</p>
+        </div>
       </div>
       <div class="about-meta">
         <div class="meta-cell">
@@ -526,10 +547,20 @@ section{position:relative;z-index:1}
           </div>
           <div class="r-arrow">↗</div>
         </a>
+        <a class="r-item" href="#contact">
+          <div class="r-code">R.4</div>
+          <div class="r-main">
+            <h3>机器学习与深度学习<span class="en">Machine &amp; Deep Learning</span></h3>
+            <p>按「一个短板逼出下一个方法」的认知顺序，从 OLS 到神经网络的脉络式学习，当前推进至神经元与 CNN 卷积。</p>
+            <div class="r-tags"><span>监督学习</span><span>神经网络</span><span>CNN 卷积</span><span>梯度下降</span></div>
+          </div>
+          <div class="r-arrow">↗</div>
+        </a>
       </div>
     </div>
   </div>
 </section>
+
 <!-- ===================== §3 核心能力 ===================== -->
 <section class="sec" id="skills">
   <div class="wrap sec-grid">
@@ -553,7 +584,7 @@ section{position:relative;z-index:1}
         <div class="m-block">
           <div class="mk">M.3 — ML</div>
           <h4>因果机器学习</h4>
-          <p>掌握双重机器学习（DML）方法，能够实现高维混淆变量控制下的因果效应估计，完成建模与结果验证。</p>
+          <p>掌握双重机器学习（DML）方法，能够实现高维混淆变量控制下的因果效应估计，完成建模与结果验证。具备从 OLS 到神经网络的机器学习基础，学习中推进至 CNN 卷积。</p>
         </div>
       </div>
       <div class="tool-table-wrap">
@@ -565,17 +596,17 @@ section{position:relative;z-index:1}
           <tbody>
             <tr>
               <td class="cat" data-label="类别">数据分析与建模</td>
-              <td class="stack" data-label="工具与技术栈"><b>Python</b> — Pandas · NumPy · Scikit-learn · Statsmodels</td>
+              <td class="stack" data-label="工具与技术栈"><b>Python</b> — Pandas · NumPy · Scikit-learn · Statsmodels · PyTorch</td>
               <td class="use" data-label="主要用途">数据清洗、统计建模与 DML 实现</td>
             </tr>
             <tr>
               <td class="cat" data-label="类别">计量分析</td>
-              <td class="stack" data-label="工具与技术栈"><b>Stata</b></td>
+              <td class="stack" data-label="工具与技术栈"><b>Stata</b> · Python</td>
               <td class="use" data-label="主要用途">回归估计、IV / DID / RDD / PSM 与稳健性检验</td>
             </tr>
             <tr>
               <td class="cat" data-label="类别">数值计算</td>
-              <td class="stack" data-label="工具与技术栈"><b>MATLAB</b></td>
+              <td class="stack" data-label="工具与技术栈"><b>Python</b></td>
               <td class="use" data-label="主要用途">数学建模与数值求解</td>
             </tr>
             <tr>
@@ -595,11 +626,44 @@ section{position:relative;z-index:1}
   </div>
 </section>
 
-<!-- ===================== §4 近期焦点（深色结论栏） ===================== -->
-<section class="sec focus" id="now">
+<!-- ===================== §4 项目 ===================== -->
+<section class="sec" id="projects">
   <div class="wrap sec-grid">
     <div class="sec-head reveal">
       <div class="sec-num">§ 4</div>
+      <h2 class="sec-title">项目</h2>
+      <div class="sec-title-en">PROJECTS</div>
+    </div>
+    <div class="reveal">
+      <div class="r-list">
+        <a class="r-item" href="https://github.com/Achimifun" target="_blank" rel="noopener">
+          <div class="r-code">P.1</div>
+          <div class="r-main">
+            <h3>因果机器学习复现<span class="en">Double ML Replication</span></h3>
+            <p>以双重机器学习（DML）为核心，复现高维混淆控制下的因果效应估计，覆盖交叉拟合、稳健性检验与结果验证的完整实证流程。</p>
+            <div class="r-tags"><span class="status">进行中</span><span>Double ML</span><span>交叉拟合</span><span>稳健性检验</span></div>
+          </div>
+          <div class="r-arrow">↗</div>
+        </a>
+        <a class="r-item" href="https://github.com/Achimifun" target="_blank" rel="noopener">
+          <div class="r-code">P.2</div>
+          <div class="r-main">
+            <h3>CNN 图像分类实验<span class="en">CNN Image Classification</span></h3>
+            <p>从神经元到卷积的特征学习验证：以图像分类小实验为主线，搭建 CNN 并观察卷积核如何自动构造特征。</p>
+            <div class="r-tags"><span class="status">规划中</span><span>PyTorch</span><span>CNN</span><span>图像分类</span></div>
+          </div>
+          <div class="r-arrow">↗</div>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== §5 近期焦点（深色结论栏） ===================== -->
+<section class="sec focus" id="now">
+  <div class="wrap sec-grid">
+    <div class="sec-head reveal">
+      <div class="sec-num">§ 5</div>
       <h2 class="sec-title">近期焦点</h2>
       <div class="sec-title-en">CURRENT FOCUS</div>
     </div>
@@ -628,16 +692,16 @@ section{position:relative;z-index:1}
           <p>公开可复现的模型实现与代码，让实证结果可被检验与复制。</p>
         </div>
       </div>
-      <div class="focus-status"><span class="pulse"></span><span>NOW — 2026 秋季学期 · 大三在读</span></div>
+      <div class="focus-status"><span class="pulse"></span><span>NOW — 2026 秋季学期 · 大三在读 · 机器学习推进至 CNN</span></div>
     </div>
   </div>
 </section>
 
-<!-- ===================== §5 联系 ===================== -->
+<!-- ===================== §6 联系 ===================== -->
 <section class="sec" id="contact">
   <div class="wrap sec-grid">
     <div class="sec-head reveal">
-      <div class="sec-num">§ 5</div>
+      <div class="sec-num">§ 6</div>
       <h2 class="sec-title">联系</h2>
       <div class="sec-title-en">CONNECT</div>
     </div>
@@ -653,7 +717,6 @@ section{position:relative;z-index:1}
             qpeqry@gmail.com
           </a>
           <div class="contact-row">
-            <!-- GitHub 链接：已指向 Achimifun -->
             <a class="btn btn-ghost" href="https://github.com/Achimifun" target="_blank" rel="noopener">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.6v-2c-3.2.7-3.9-1.4-3.9-1.4-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17 5 18 5.3 18 5.3c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5z"/></svg>
               GitHub 主页
@@ -672,16 +735,17 @@ section{position:relative;z-index:1}
 <!-- ===================== 页脚 ===================== -->
 <footer class="footer">
   <div class="wrap footer-inner">
-    <div class="fl"><span class="brand-mark">θ</span><span>王毅乐 · FINANCE ENGINEERING, BTBU</span></div>
-    <div>© 2026 王毅乐 · qpeqry@gmail.com · LAST UPDATED 2026-10</div>
+    <div class="fl"><span class="brand-mark">θ</span><span>范铭宇 · FINANCE ENGINEERING, BTBU</span></div>
+    <div>© 2026 范铭宇 · qpeqry@gmail.com · LAST UPDATED 2026-10</div>
   </div>
 </footer>
 
 <script>
 (function(){
   "use strict";
-  // 滚动揭示：仅区块级一次，克制使用
   var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // 滚动揭示：仅区块级一次，克制使用
   var items = document.querySelectorAll(".reveal");
   if(reduce || !("IntersectionObserver" in window)){
     items.forEach(function(el){ el.classList.add("in"); });
@@ -693,6 +757,32 @@ section{position:relative;z-index:1}
     },{threshold:0.12, rootMargin:"0px 0px -8% 0px"});
     items.forEach(function(el){ io.observe(el); });
   }
+
+  // 最新导航：滚动高亮（桌面竖栏 / 移动底栏）
+  var map = {};
+  document.querySelectorAll(".rail-item, .mnav-item").forEach(function(a){
+    var id = a.getAttribute("href").slice(1);
+    (map[id] = map[id] || []).push(a);
+  });
+  var secs = document.querySelectorAll("section[id], header[id]");
+  if("IntersectionObserver" in window){
+    var spy = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){
+          var list = map[e.target.id];
+          if(list){
+            list.forEach(function(a){
+              var scope = a.classList.contains("rail-item") ? ".rail" : ".mnav";
+              document.querySelectorAll(scope + " .active").forEach(function(x){ x.classList.remove("active"); });
+              a.classList.add("active");
+            });
+          }
+        }
+      });
+    },{rootMargin:"-45% 0px -50% 0px"});
+    secs.forEach(function(s){ spy.observe(s); });
+  }
+
   // 点击“复制邮箱后联系”：写入剪贴板并给出即时反馈
   var copyBtn = document.querySelector(".contact-row .btn-ghost:last-child");
   if(copyBtn){
